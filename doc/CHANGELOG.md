@@ -1,5 +1,7 @@
 # Changelog
 
+* `#1350` Generalize Modal Creation
+
 ## 3.0.0pre7
 
 * `#1119` Creates a unified view for work_package show, new and create
