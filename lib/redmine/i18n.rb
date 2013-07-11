@@ -52,12 +52,11 @@ module Redmine
       Setting.date_format.blank? ? ::I18n.l(date.to_date) : date.strftime(Setting.date_format)
     end
 
-    def format_time_as_date(time, format = nil)
+    def format_time_as_date(time, format)
       return nil unless time
       zone = User.current.time_zone
       local_date = (zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)).to_date
-      return local_date.strftime(format) if format
-      Setting.date_format.blank? ? ::I18n.l(local_date) : local_date.strftime(Setting.date_format)
+      return local_date.strftime(format)
     end
 
     def format_time(time, include_date = true)
