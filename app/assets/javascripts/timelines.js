@@ -286,6 +286,10 @@ Timeline = {
         }
       );
 
+      jQuery(this.modalHelper).on("closed", function () {
+        timeline.reload();
+      });
+
       timelineLoader = new Timeline.TimelineLoader(
         this,
         {
@@ -1051,13 +1055,13 @@ Timeline = {
     TimelineLoader.prototype.registerPlanningElementsByID = function (ids) {
 
       this.inChunks(ids, function (planningElementIdsOfPacket, i) {
-        var planningElementPrefix = this.options.url_prefix +
-                            this.options.planning_element_prefix;
+        var projectPrefix = this.options.url_prefix +
+                            this.options.api_prefix;
 
         // load current planning elements.
         this.loader.register(
             Timeline.PlanningElement.identifier + '_IDS_' + i,
-            { url : planningElementPrefix +
+            { url : projectPrefix +
                     '/planning_elements.json?ids=' +
                     planningElementIdsOfPacket.join(',')},
             { storeIn: Timeline.PlanningElement.identifier }
@@ -4179,16 +4183,6 @@ Timeline = {
       text = timeline.escape(data.name);
       if (data.getUrl instanceof Function) {
         text = jQuery('<a href="' + data.getUrl() + '" class="tl-discreet-link" target="_blank" data-modal/>').append(text).attr("title", text);
-        text.click(function(event) {
-          if (!event.ctrlKey && !event.metaKey && data.is(Timeline.PlanningElement)) {
-            /*timeline.modalHelper.createPlanningModal(
-              'show',
-              data.project.identifier,
-              data.id
-            );
-            event.preventDefault();*/
-          }
-        });
       }
 
       if (data.is(Timeline.Project)) {
@@ -4870,13 +4864,7 @@ Timeline = {
     e.unhover();
     e.click(function(e) {
       var payload = node.getData();
-      timeline.modalHelper.createModal(timeline.modalHelper.setLayoutParameter(payload.getUrl()));
-      /*timeline.modalHelper.createPlanningModal(
-        'show',
-        payload.project.identifier,
-        payload.id
-      );
-      e.stopPropagation();*/
+      timeline.modalHelper.createModal(payload.getUrl());
     });
     e.attr({'cursor': 'pointer'});
     e.hover(

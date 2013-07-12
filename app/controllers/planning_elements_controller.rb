@@ -111,7 +111,7 @@ class PlanningElementsController < ApplicationController
       format.html do
         if successfully_updated
           flash[:notice] = l(:notice_successful_update)
-          redirect_to project_planning_element_path(@project, @planning_element, :layout => layout_parameter_given?)
+          redirect_to project_planning_element_path(@project, @planning_element)
         else
           flash.now[:error] = l('timelines.planning_element_could_not_be_saved')
           render :action => "edit"
