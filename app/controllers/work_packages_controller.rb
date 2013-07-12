@@ -46,8 +46,8 @@ class WorkPackagesController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html
-      format.js { render :partial => 'show'}
+      format.html { render :layout => params["layout"].nil? }
+      format.js { render :action => 'show', :layout => false }
     end
   end
 

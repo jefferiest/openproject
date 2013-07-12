@@ -2308,10 +2308,7 @@ Timeline = {
       var options = this.timeline.options;
       var url = options.url_prefix;
 
-      url += options.project_prefix;
-      url += "/";
-      url += this.getProject().identifier;
-      url += "/planning_elements/";
+      url += "/work_packages/";
       url += this.id;
 
       return url;
@@ -4181,15 +4178,15 @@ Timeline = {
 
       text = timeline.escape(data.name);
       if (data.getUrl instanceof Function) {
-        text = jQuery('<a href="' + data.getUrl() + '" class="tl-discreet-link" target="_blank"/>').append(text).attr("title", text);
+        text = jQuery('<a href="' + data.getUrl() + '" class="tl-discreet-link" target="_blank" data-modal/>').append(text).attr("title", text);
         text.click(function(event) {
           if (!event.ctrlKey && !event.metaKey && data.is(Timeline.PlanningElement)) {
-            timeline.modalHelper.createPlanningModal(
+            /*timeline.modalHelper.createPlanningModal(
               'show',
               data.project.identifier,
               data.id
             );
-            event.preventDefault();
+            event.preventDefault();*/
           }
         });
       }
@@ -4873,12 +4870,13 @@ Timeline = {
     e.unhover();
     e.click(function(e) {
       var payload = node.getData();
-      timeline.modalHelper.createPlanningModal(
+      timeline.modalHelper.createModal(timeline.modalHelper.setLayoutParameter(payload.getUrl()));
+      /*timeline.modalHelper.createPlanningModal(
         'show',
         payload.project.identifier,
         payload.id
       );
-      e.stopPropagation();
+      e.stopPropagation();*/
     });
     e.attr({'cursor': 'pointer'});
     e.hover(
